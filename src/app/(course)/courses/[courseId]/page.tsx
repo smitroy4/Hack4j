@@ -112,7 +112,7 @@ export default async function CourseDetailPage({
         {course.sections.length > 0 ? (
           <div className="space-y-4">
             <h2 className="text-xl font-semibold">Course Content</h2>
-            {course.sections.map((section, si) => (
+            {course.sections.map((section: { id: string; title: string; order: number; lessons: { id: string; title: string; duration: number; order: number }[] }, si: number) => (
               <div
                 key={section.id}
                 className="overflow-hidden rounded-xl border bg-card transition-shadow hover:shadow-md"
