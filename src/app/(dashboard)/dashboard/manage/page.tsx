@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useCallback } from "react"
+import { useState, useEffect, useCallback, useRef } from "react"
 import { Plus, Pencil, Trash2, Loader2, List, BookOpen, ChevronRight, ChevronDown, X } from "lucide-react"
 import { RichTextEditor } from "@/components/rich-text-editor"
 import { Button } from "@/components/ui/button"
@@ -478,6 +478,23 @@ function CourseFormDialog({
   const [categoryId, setCategoryId] = useState(edit?.categoryId ?? "")
   const [saving, setSaving] = useState(false)
 
+  const editIdRef = useRef(edit?.id ?? null)
+
+  useEffect(() => {
+    const nextId = edit?.id ?? null
+    if (nextId !== editIdRef.current) {
+      editIdRef.current = nextId
+      setTitle(edit?.title ?? "")
+      setSlug(edit?.slug ?? "")
+      setSlugTouched(!!edit)
+      setDescription(edit?.description ?? "")
+      setShortDescription(edit?.shortDescription ?? "")
+      setImage(edit?.image ?? "")
+      setPublished(edit?.published ?? false)
+      setCategoryId(edit?.categoryId ?? "")
+    }
+  }, [edit])
+
   function handleTitleChange(value: string) {
     setTitle(value)
     if (!slugTouched) setSlug(slugify(value))
@@ -612,6 +629,18 @@ function CategoryFormDialog({
   const [slug, setSlug] = useState(edit?.slug ?? "")
   const [description, setDescription] = useState(edit?.description ?? "")
   const [saving, setSaving] = useState(false)
+
+  const editIdRef = useRef(edit?.id ?? null)
+
+  useEffect(() => {
+    const nextId = edit?.id ?? null
+    if (nextId !== editIdRef.current) {
+      editIdRef.current = nextId
+      setName(edit?.name ?? "")
+      setSlug(edit?.slug ?? "")
+      setDescription(edit?.description ?? "")
+    }
+  }, [edit])
 
   function handleNameChange(value: string) {
     setName(value)
@@ -1089,6 +1118,16 @@ function SectionFormDialog({
   const [title, setTitle] = useState(edit?.title ?? "")
   const [saving, setSaving] = useState(false)
 
+  const editIdRef = useRef(edit?.id ?? null)
+
+  useEffect(() => {
+    const nextId = edit?.id ?? null
+    if (nextId !== editIdRef.current) {
+      editIdRef.current = nextId
+      setTitle(edit?.title ?? "")
+    }
+  }, [edit])
+
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setSaving(true)
@@ -1154,6 +1193,25 @@ function LessonFormDialog({
     edit?.lessonResources?.map((r) => ({ title: r.title, url: r.url, type: r.type })) ?? []
   )
   const [saving, setSaving] = useState(false)
+
+  const editIdRef = useRef(edit?.id ?? null)
+
+  useEffect(() => {
+    const nextId = edit?.id ?? null
+    if (nextId !== editIdRef.current) {
+      editIdRef.current = nextId
+      setTitle(edit?.title ?? "")
+      setDescription(edit?.description ?? "")
+      setVideoUrl(
+        edit?.videoId ? `https://youtube.com/watch?v=${edit.videoId}` : ""
+      )
+      setDuration(edit?.duration ?? 0)
+      setInstructorNotes(edit?.instructorNotes ?? "")
+      setResources(
+        edit?.lessonResources?.map((r) => ({ title: r.title, url: r.url, type: r.type })) ?? []
+      )
+    }
+  }, [edit])
 
   function addResource() {
     setResources((prev) => [...prev, { title: "", url: "", type: "link" }])
