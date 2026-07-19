@@ -27,10 +27,14 @@ export default async function CourseDetailPage({
   if (!course) notFound()
 
   const totalDuration = course.sections.reduce(
-    (acc: number, s) => acc + s.lessons.reduce((sum: number, l) => sum + l.duration, 0),
+    (acc: number, s: { lessons: { duration: number }[] }) =>
+      acc + s.lessons.reduce((sum: number, l: { duration: number }) => sum + l.duration, 0),
     0
   )
-  const totalLessons = course.sections.reduce((acc: number, s) => acc + s.lessons.length, 0)
+  const totalLessons = course.sections.reduce(
+    (acc: number, s: { lessons: unknown[] }) => acc + s.lessons.length,
+    0
+  )
 
   const gradientIndex = courseId.charCodeAt(0) % 6
   const gradients = [
