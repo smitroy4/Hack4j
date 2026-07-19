@@ -38,12 +38,12 @@ export default async function CoursesPage() {
     },
   })
 
-  const enrolledCourses = enrollments.map((e) => {
+  const enrolledCourses = enrollments.map((e: { course: { id: string; title: string; slug: string; description: string | null; shortDescription: string | null; image: string | null; category: { name: string } | null; sections: { lessons: { id: string }[] }[] } }) => {
     const totalLessons = e.course.sections.reduce(
-      (acc, s) => acc + s.lessons.length, 0
+      (acc: number, s: { lessons: unknown[] }) => acc + s.lessons.length, 0
     )
     const completedLessons = progressRecords.filter(
-      (p) =>
+      (p: { lesson: { section: { course: { id: string } } }; completed: boolean }) =>
         p.lesson.section.course.id === e.course.id && p.completed
     ).length
     const progress = totalLessons > 0
@@ -71,7 +71,7 @@ export default async function CoursesPage() {
 
       {enrolledCourses.length > 0 ? (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {enrolledCourses.map((course) => (
+          {enrolledCourses.map((course: { id: string; title: string; description: string; instructor: string; progress: number; category: string }) => (
             <Link
               key={course.id}
               href={`/courses/${course.id}`}

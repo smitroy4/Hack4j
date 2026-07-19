@@ -35,7 +35,7 @@ export default async function BookmarksPage() {
 
       {dbBookmarks.length > 0 ? (
         <div className="space-y-3">
-          {dbBookmarks.map((bookmark) => (
+          {dbBookmarks.map((bookmark: { id: string; lesson: { id: string; title: string; section: { course: { id: string; title: string } } }; createdAt: Date }) => (
             <div
               key={bookmark.id}
               className="flex items-start gap-4 rounded-lg border p-4 transition-colors hover:bg-muted/50"

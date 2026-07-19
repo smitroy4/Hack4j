@@ -37,7 +37,7 @@ export default async function DashboardPage() {
     take: 10,
   })
 
-  const recentLessons = progressRecords.map((p) => ({
+  const recentLessons = progressRecords.map((p: { lesson: { id: string; title: string; section: { course: { id: string; title: string } } }; completionPct: number; lastWatchedAt: Date }) => ({
     id: p.lesson.id,
     title: p.lesson.title,
     courseTitle: p.lesson.section.course.title,
@@ -46,12 +46,12 @@ export default async function DashboardPage() {
     updatedAt: timeAgo(p.lastWatchedAt),
   }))
 
-  const enrolledCourses = enrollments.map((e) => {
+  const enrolledCourses = enrollments.map((e: { course: { id: string; title: string; slug: string; description: string | null; image: string | null; category: { name: string } | null; sections: { lessons: { id: string }[] }[] } }) => {
     const totalLessons = e.course.sections.reduce(
-      (acc, s) => acc + s.lessons.length, 0
+      (acc: number, s: { lessons: unknown[] }) => acc + s.lessons.length, 0
     )
     const completedLessons = progressRecords.filter(
-      (p) =>
+      (p: { lesson: { section: { course: { id: string } } }; completed: boolean }) =>
         p.lesson.section.course.id === e.course.id && p.completed
     ).length
     const progress = totalLessons > 0
