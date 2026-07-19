@@ -46,7 +46,7 @@ export default async function DashboardPage() {
     updatedAt: timeAgo(p.lastWatchedAt),
   }))
 
-  const enrolledCourses = enrollments.map((e: { course: { id: string; title: string; slug: string; description: string | null; image: string | null; category: { name: string } | null; sections: { lessons: { id: string }[] }[] } }) => {
+  const enrolledCourses = enrollments.map((e: { course: { id: string; title: string; slug: string; description: string | null; shortDescription: string | null; image: string | null; category: { name: string } | null; sections: { lessons: { id: string }[] }[] } }) => {
     const totalLessons = e.course.sections.reduce(
       (acc: number, s: { lessons: unknown[] }) => acc + s.lessons.length, 0
     )
